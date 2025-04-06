@@ -27,40 +27,44 @@ There are several ways to edit and contribute to VidyaVahini.
 
 If you'd like to work locally using your own IDE, follow these steps:
 
-#### Requirements: Node.js & npm
+Use your preferred IDE
+If you'd like to work locally using your own IDE, clone this repo and push your changes. Updates will also reflect in Lovable if you're using it.
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Let's Get Started!
 
-👉 Install via [nvm](https://github.com/nvm-sh/nvm)
+Follow these steps:
 
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-# Step 2: Navigate into the project directory
-cd vidyavahini
-
-# Step 3: Install project dependencies
+# Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the dev server with auto-reload and preview
+# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
-Edit a file directly in GitHub
-Go to the file you'd like to edit
+```
 
-Click the ✏️ "Edit" icon
+**Edit a file directly in GitHub**
 
-Make changes and commit directly to the branch
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-Use GitHub Codespaces
-Open the main page of your repo
+**Use GitHub Codespaces**
 
-Click the green "Code" button
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-Go to the "Codespaces" tab
+## What technologies are used for this project?
 
-Click "New codespace" to open an online IDE
-
-Make edits and commit your changes
-
-What technologies are used for this project?
-VidyaVahini is built using modern tools and frameworks:
+This project is built with .
 
 ⚡ Vite
 
@@ -68,34 +72,20 @@ VidyaVahini is built using modern tools and frameworks:
 
 ⚛️ React
 
-🎨 shadcn/ui
+🎨 shadcn-ui
 
 🌈 Tailwind CSS
 
-How can I deploy this project?
-You can deploy VidyaVahini easily using platforms like:
+🌍 Google Cloud APIs
 
-Vercel
+Cloud Translation API: Used for translating the entire website to different languages, ensuring accessibility for users worldwide.
 
-Netlify
+Google Speech-to-Text API: Powers the chatbot and voice assistant, converting speech to text for seamless interactions.
 
-GitHub Pages (with Vite plugin)
+Google Text-to-Speech API: Allows the chatbot and voice assistant to speak responses, enabling a fully interactive voice interface.
+## How can I deploy this project?
 
-Render
 
-Deployment steps:
+## I want to use a custom domain - is that possible?
 
-Connect your repo
-
-Choose the framework preset: Vite
-
-Set build command: npm run build
-
-Output directory: dist
-
-Deploy and you're live! 🚀
-
-I want to use a custom domain – is that possible?
-We don't support custom domains yet.
-To use your own domain, we recommend platforms like Netlify. See guide:
-
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
