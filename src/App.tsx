@@ -32,15 +32,12 @@ import Index from './pages/Index';
 import VoiceAssistant from './components/VoiceAssistant';
 import AiChatBox from './components/AiChatBox';
 import TranslationWrapper from './components/TranslationWrapper';
-import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import '@/styles/themes.css';
 import './styles/globals.css';
 
 function AppContent() {
-  const { theme } = useTheme();
-
   return (
-    <div className={`${theme} min-h-screen transition-colors duration-200`}>
+    <div className="min-h-screen transition-colors duration-200">
       <Router>
         <AuthProvider>
           <LanguageProvider>
@@ -95,9 +92,7 @@ function AppContent() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
+    <AppContent />
   );
 }
 
