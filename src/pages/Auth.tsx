@@ -169,20 +169,20 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-edu-dark">
-      <div className="flex items-center justify-between p-4 md:p-8">
-        <button onClick={handleBack} className="text-white bg-edu-purple px-4 py-2 rounded">
+      <div className="flex items-center justify-between p-4 md:p-6 lg:p-8">
+        <button onClick={handleBack} className="text-white bg-edu-purple px-3 py-2 rounded md:px-4 md:py-2">
           Back
         </button>
         <Logo size={36} />
       </div>
       
-      <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-edu-card-bg border-none shadow-xl">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">
+      <div className="flex-1 flex items-center justify-center p-4 md:p-6 lg:p-8">
+        <Card className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-edu-card-bg border-none shadow-xl">
+          <CardHeader className="space-y-2 md:space-y-3">
+            <CardTitle className="text-xl md:text-2xl font-bold text-center">
               <TranslatedText text={activeTab === 'login' ? 'Welcome back' : activeTab === 'register' ? 'Create an account' : 'Reset your password'} />
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription className="text-sm md:text-base text-center">
               <TranslatedText text={activeTab === 'login' ? 'Enter your credentials to sign in' : activeTab === 'register' ? 'Fill in your details to register' : 'Enter your email to reset your password'} />
             </CardDescription>
           </CardHeader>
@@ -193,7 +193,7 @@ const Auth: React.FC = () => {
               </div>
             )}
             <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid grid-cols-3 mb-6">
+              <TabsList className="grid grid-cols-3 gap-2 mb-6">
                 <TabsTrigger value="login">
                   <TranslatedText text="Login" />
                 </TabsTrigger>
@@ -221,7 +221,7 @@ const Auth: React.FC = () => {
                               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
                                 placeholder="your.email@example.com"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -244,7 +244,7 @@ const Auth: React.FC = () => {
                               <Input
                                 type="password"
                                 placeholder="••••••••"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -253,7 +253,7 @@ const Auth: React.FC = () => {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full bg-edu-purple" disabled={isLoading}>
+                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -283,7 +283,7 @@ const Auth: React.FC = () => {
                               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
                                 placeholder="your.email@example.com"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -305,7 +305,7 @@ const Auth: React.FC = () => {
                               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
                                 placeholder="johndoe"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -328,7 +328,7 @@ const Auth: React.FC = () => {
                               <Input
                                 type="password"
                                 placeholder="••••••••"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -365,7 +365,7 @@ const Auth: React.FC = () => {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full bg-edu-purple" disabled={isLoading}>
+                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -395,7 +395,7 @@ const Auth: React.FC = () => {
                               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
                                 placeholder="your.email@example.com"
-                                className="bg-edu-dark pl-10"
+                                className="bg-edu-dark pl-10 py-2 md:py-3"
                                 {...field}
                               />
                             </div>
@@ -404,7 +404,7 @@ const Auth: React.FC = () => {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full bg-edu-purple" disabled={isLoading}>
+                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
