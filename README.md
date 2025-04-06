@@ -19,7 +19,7 @@ VidyaVahini is a powerful platform designed to connect education to opportunity 
 
 ✨ VidyaVahini – Connecting education to opportunity for everyone.
 
-## How can I contribute to VidyaVahini?
+## How can I contribute to VidyaVahini? 
 
 There are several ways to edit and contribute to VidyaVahini.
 
