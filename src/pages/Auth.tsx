@@ -104,8 +104,11 @@ const Auth: React.FC = () => {
     setError(null);
     try {
       const { success, error } = await action();
-      if (success && onSuccess) onSuccess();
-      if (!success) setError(error || 'An unexpected error occurred');
+      if (success) {
+        if (onSuccess) onSuccess();
+      } else {
+        setError(error || 'An unexpected error occurred');
+      }
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred');
     } finally {
@@ -137,33 +140,33 @@ const Auth: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-edu-dark">
       <div className="flex items-center justify-between p-4 md:p-6 lg:p-8">
-        <button onClick={handleBack} className="text-white bg-edu-purple px-3 py-2 rounded md:px-4 md:py-2">
+        <button onClick={handleBack} className="text-white bg-edu-purple px-3 py-2 rounded text-sm md:text-base md:px-4 md:py-2">
           Back
         </button>
         <Logo size={36} />
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4 md:p-6 lg:p-8">
-        <Card className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-edu-card-bg border-none shadow-xl">
+        <Card className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-edu-card-bg border-none shadow-xl">
           <CardHeader className="space-y-2 md:space-y-3">
-            <CardTitle className="text-xl md:text-2xl font-bold text-center">
+            <CardTitle className="text-lg md:text-xl lg:text-2xl font-bold text-center">
               <TranslatedText text={activeTab === 'login' ? 'Welcome back' : activeTab === 'register' ? 'Create an account' : 'Reset your password'} />
             </CardTitle>
-            <CardDescription className="text-sm md:text-base text-center">
+            <CardDescription className="text-xs md:text-sm lg:text-base text-center">
               <TranslatedText text={activeTab === 'login' ? 'Enter your credentials to sign in' : activeTab === 'register' ? 'Fill in your details to register' : 'Enter your email to reset your password'} />
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {error && <div className="mb-4 p-3 text-sm text-red-500 bg-red-100 rounded">{error}</div>}
+            {error && <div className="mb-4 p-3 text-xs md:text-sm text-red-500 bg-red-100 rounded">{error}</div>}
             <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid grid-cols-3 gap-2 mb-6">
-                <TabsTrigger value="login">
+              <TabsList className="grid grid-cols-3 gap-2 mb-4 md:mb-6">
+                <TabsTrigger value="login" className="text-xs md:text-sm">
                   <TranslatedText text="Login" />
                 </TabsTrigger>
-                <TabsTrigger value="register">
+                <TabsTrigger value="register" className="text-xs md:text-sm">
                   <TranslatedText text="Register" />
                 </TabsTrigger>
-                <TabsTrigger value="reset">
+                <TabsTrigger value="reset" className="text-xs md:text-sm">
                   <TranslatedText text="Reset" />
                 </TabsTrigger>
               </TabsList>
@@ -173,7 +176,11 @@ const Auth: React.FC = () => {
                   <form onSubmit={loginForm.handleSubmit((values) => handleSubmit(() => signIn(values.email, values.password)))}>
                     {renderFormField('email', 'Email', 'your.email@example.com', 'text', <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, loginForm)}
                     {renderFormField('password', 'Password', '••••••••', 'password', <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, loginForm)}
-                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      disabled={isLoading}
+                    >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Sign In" />}
                     </Button>
                   </form>
@@ -182,7 +189,21 @@ const Auth: React.FC = () => {
 
               <TabsContent value="register">
                 <Form {...registerForm}>
-                  <form onSubmit={registerForm.handleSubmit((values) => handleSubmit(() => signUp(values.email, values.password, { username: values.username, role: values.role }), () => setActiveTab('login')))}>
+                  <form
+                    onSubmit={registerForm.handleSubmit((values) =>
+                      handleSubmit(
+                        () =>
+                          signUp(values.email, values.password, {
+                            username: values.username,
+                            role: values.role,
+                          }),
+                        () => {
+                          setActiveTab('login');
+                          registerForm.reset();
+                        }
+                      )
+                    )}
+                  >
                     {renderFormField('email', 'Email', 'your.email@example.com', 'text', <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, registerForm)}
                     {renderFormField('username', 'Username', 'johndoe', 'text', <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, registerForm)}
                     {renderFormField('password', 'Password', '••••••••', 'password', <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, registerForm)}
@@ -194,16 +215,25 @@ const Auth: React.FC = () => {
                           <FormLabel>
                             <TranslatedText text="I am a..." />
                           </FormLabel>
-                          <div className="grid grid-cols-3 gap-2">
+                          <div className="grid grid-cols-3 gap-2 mb-4"> {/* Added mb-4 for spacing */}
                             {['student', 'teacher', 'employer'].map((role) => (
-                              <RoleButton key={role} role={role} selectedRole={field.value} onSelect={field.onChange} />
+                              <RoleButton
+                                key={role}
+                                role={role}
+                                selectedRole={field.value}
+                                onSelect={(selectedRole) => field.onChange(selectedRole)}
+                              />
                             ))}
                           </div>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      disabled={isLoading}
+                    >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Create Account" />}
                     </Button>
                   </form>
@@ -214,7 +244,11 @@ const Auth: React.FC = () => {
                 <Form {...resetPasswordForm}>
                   <form onSubmit={resetPasswordForm.handleSubmit((values) => handleSubmit(() => resetPassword(values.email), () => setActiveTab('login')))}>
                     {renderFormField('email', 'Email', 'your.email@example.com', 'text', <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, resetPasswordForm)}
-                    <Button type="submit" className="w-full bg-edu-purple py-2 md:py-3" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      disabled={isLoading}
+                    >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Send Reset Link" />}
                     </Button>
                   </form>
