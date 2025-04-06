@@ -32,8 +32,7 @@ import Index from './pages/Index';
 import VoiceAssistant from './components/VoiceAssistant';
 import AiChatBox from './components/AiChatBox';
 import TranslationWrapper from './components/TranslationWrapper';
-import '@/styles/themes.css';
-import './styles/globals.css';
+
 
 function AppContent() {
   return (
