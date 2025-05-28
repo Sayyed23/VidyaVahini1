@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
@@ -16,6 +15,12 @@ const checkOnlineStatus = () => {
 
 // PWA registration function
 const registerServiceWorker = async () => {
+  // Skip service worker registration in unsupported environments
+  if (window.location.hostname.includes('stackblitz') || window.location.hostname.includes('webcontainer.io')) {
+    console.log('Service Workers are not supported in this environment');
+    return;
+  }
+
   if ('serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/service-worker.js', {
@@ -44,7 +49,7 @@ const registerServiceWorker = async () => {
         });
       });
     } catch (error) {
-      console.error(`Registration failed with ${error}`);
+      console.warn('Service worker registration skipped:', error);
     }
   }
 };

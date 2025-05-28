@@ -68,7 +68,10 @@ const Auth: React.FC = () => {
   const { user, signIn, signUp, resetPassword, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState('login');
+  const [activeTab, setActiveTab] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    return params.get('mode') === 'signup' ? 'register' : 'login';
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -107,10 +110,25 @@ const Auth: React.FC = () => {
       if (success) {
         if (onSuccess) onSuccess();
       } else {
-        setError(error || 'An unexpected error occurred');
+        let errorMessage = error || 'An unexpected error occurred';
+        // Handle specific error cases
+        if (error?.includes('invalid_credentials')) {
+          errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+        } else if (error?.includes('user_already_exists')) {
+          errorMessage = 'An account with this email already exists. Please sign in instead.';
+          setActiveTab('login');
+        }
+        setError(errorMessage);
       }
     } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+      let errorMessage = err.message || 'An unexpected error occurred';
+      if (errorMessage.includes('invalid_credentials')) {
+        errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+      } else if (errorMessage.includes('user_already_exists')) {
+        errorMessage = 'An account with this email already exists. Please sign in instead.';
+        setActiveTab('login');
+      }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -158,7 +176,7 @@ const Auth: React.FC = () => {
           </CardHeader>
           <CardContent>
             {error && <div className="mb-4 p-3 text-xs md:text-sm text-red-500 bg-red-100 rounded">{error}</div>}
-            <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab}>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 gap-2 mb-4 md:mb-6">
                 <TabsTrigger value="login" className="text-xs md:text-sm">
                   <TranslatedText text="Login" />
@@ -178,7 +196,7 @@ const Auth: React.FC = () => {
                     {renderFormField('password', 'Password', '••••••••', 'password', <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, loginForm)}
                     <Button
                       type="submit"
-                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4"
                       disabled={isLoading}
                     >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Sign In" />}
@@ -215,7 +233,7 @@ const Auth: React.FC = () => {
                           <FormLabel>
                             <TranslatedText text="I am a..." />
                           </FormLabel>
-                          <div className="grid grid-cols-3 gap-2 mb-4"> {/* Added mb-4 for spacing */}
+                          <div className="grid grid-cols-3 gap-2 mb-4">
                             {['student', 'teacher', 'employer'].map((role) => (
                               <RoleButton
                                 key={role}
@@ -231,7 +249,7 @@ const Auth: React.FC = () => {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4"
                       disabled={isLoading}
                     >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Create Account" />}
@@ -246,7 +264,7 @@ const Auth: React.FC = () => {
                     {renderFormField('email', 'Email', 'your.email@example.com', 'text', <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />, resetPasswordForm)}
                     <Button
                       type="submit"
-                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4" // Added mt-4 to shift the button down
+                      className="w-full bg-edu-purple py-2 md:py-3 text-sm md:text-base mt-4"
                       disabled={isLoading}
                     >
                       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TranslatedText text="Send Reset Link" />}
